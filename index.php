@@ -1,30 +1,134 @@
+
 <?php
-/*
+/**
  * Picks a random suite and a random card from a deck of cards
  *
  * @return an array of [suite => card]
  */
-function pickCard() {
-    $deck = [];
-    $deck['hearts'] = ['2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9, '10' => 10, 'J' => 10, 'Q' => 10, 'K' => 10, 'A' => 11];
-    $deck['spades'] = ['2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9, '10' => 10, 'J' => 10, 'Q' => 10, 'K' => 10, 'A' => 11];
-    $deck['clubs'] = ['2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9, '10' => 10, 'J' => 10, 'Q' => 10, 'K' => 10, 'A' => 11];
-    $deck['diamonds'] = ['2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9, '10' => 10, 'J' => 10, 'Q' => 10, 'K' => 10, 'A' => 11];
 
-    $suite = ['hearts', 'spades', 'clubs', 'diamonds'];
-    $randomSuite = $suite[array_rand($suite)];
-    $randomCard = $deck[$randomSuite][array_rand($deck[$randomSuite])];
+$deck = [
+    ['2 of hearts' => 2],
+    ['3 of hearts' => 3],
+    ['4 of hearts' => 4],
+    ['5 of hearts' => 5],
+    ['6 of hearts' => 6],
+    ['7 of hearts' => 7],
+    ['8 of hearts' => 8],
+    ['9 of hearts' => 9],
+    ['10 of hearts' => 10],
+    ['J of hearts' => 10],
+    ['K of hearts' => 10],
+    ['Q of hearts' => 10],
+    ['A of hearts' => 11],
+    ['2 of diamonds' => 2],
+    ['3 of diamonds' => 3],
+    ['4 of diamonds' => 4],
+    ['5 of diamonds' => 5],
+    ['6 of diamonds' => 6],
+    ['7 of diamonds' => 7],
+    ['8 of diamonds' => 8],
+    ['9 of diamonds' => 9],
+    ['10 of diamonds' => 10],
+    ['J of diamonds' => 10],
+    ['K of diamonds' => 10],
+    ['Q of diamonds' => 10],
+    ['A of diamonds' => 11],
+    ['2 of clubs' => 2],
+    ['3 of clubs' => 3],
+    ['4 of clubs' => 4],
+    ['5 of clubs' => 5],
+    ['6 of clubs' => 6],
+    ['7 of clubs' => 7],
+    ['8 of clubs' => 8],
+    ['9 of clubs' => 9],
+    ['10 of clubs' => 10],
+    ['J of clubs' => 10],
+    ['K of clubs' => 10],
+    ['Q of clubs' => 10],
+    ['A of clubs' => 11],
+    ['2 of spades' => 2],
+    ['3 of spades' => 3],
+    ['4 of spades' => 4],
+    ['5 of spades' => 5],
+    ['6 of spades' => 6],
+    ['7 of spades' => 7],
+    ['8 of spades' => 8],
+    ['9 of spades' => 9],
+    ['10 of spades' => 10],
+    ['J of spades' => 10],
+    ['K of spades' => 10],
+    ['Q of spades' => 10],
+    ['A of spades' => 11],
+];
 
-    return [$randomSuite => $randomCard];
+shuffle($deck);
+
+
+function pickCard($deck) {
+    $card = array_shift($deck);
+    return [$card, $deck];
+};
+
+$card1 = pickCard($deck)[0];
+$deck1 = pickCard($deck)[1];
+$card2 = pickCard($deck1)[0];
+$deck2 = pickCard($deck1)[1];
+$card3 = pickCard($deck2)[0];
+$deck3 = pickCard($deck2)[1];
+$card4 = pickCard($deck3)[0];
+$deck4 = pickCard($deck3)[1];
+
+
+function score($card1, $card2 = []) {
+    $score = array_sum($card1) + array_sum($card2);
+    return $score;
 }
 
-$card1 = pickCard();
-$card2 = pickCard();
-$card3 = pickCard();
-$card4 = pickCard();
+$p1score = score($card1, $card2);
+$p2score = score($card3, $card4);
+
+var_dump($card1);
+echo '<br>';
+var_dump($card2);
+echo '<br>';
+var_dump($card3);
+echo '<br>';
+var_dump($card4);
+echo '<br>';
+var_dump($p1score, $p2score);
+
+echo '<br>';
 
 /*
- * sums two selected cards values
+function drawExtra($deck) {
+    $card5 = pickCard($deck)[0];
+    $deck5 = pickCard($deck)[1];
+    return [$card5, $deck5];
+}
+*/
+
+
+switch (true) {
+case ($p1score > 21 && $p2score <= 21):
+    echo 'P1 bust P2 wins';
+    break;
+case ($p2score > 21 && $p1score <= 21):
+    echo 'P2 bust P1 wins';
+    break;
+case ($p2score > $p1score):
+    echo 'P2 wins';
+    break;
+case ($p2score < $p1score):
+    echo 'P1 wins';
+    break;
+default:
+    echo 'Draw';
+    break;
+}
+
+
+/**
+ * Sums two selected cards values
  *
  * @param1, @param2 random picked cards from the deck
  *
@@ -32,29 +136,12 @@ $card4 = pickCard();
  *
  * @return int the sum of two cards values
  */
-function sum($firstCard, $secondCard) {
-    while (array_keys($firstCard) == array_keys($secondCard) && array_values($firstCard) == array_values($secondCard)) {
-        $firstCard = pickCard();
-    }
-    return array_sum($firstCard) + array_sum($secondCard);
-}
 
-$p1 = sum($card1, $card2);
-$p2 = sum($card3, $card4);
-
-/*
- * checks which player wins
+/**
+ * Checks which player wins
  *
  * @param1 int sum of player1's cards
  * @param2 int sum of player2's cards
  *
  * @return int score of both players and the winner
  */
-function win($p1, $p2) {
-    if ($p1 == $p2) {
-        return "Player 1: $p1, Player 2: $p2, Deuce";
-    }
-    return $p1 > $p2 ? "Player 1: $p1, Player 2: $p2, Player 1 Won" : "Player 1: $p1, Player 2: $p2, Player 2 Won";
-}
-
-var_dump($card1, $card2, $card3, $card4, win($p1, $p2));
