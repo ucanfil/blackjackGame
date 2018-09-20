@@ -108,23 +108,27 @@ function drawExtra($deck) {
 */
 
 
-switch (true) {
-case ($p1score > 21 && $p2score <= 21):
-    echo 'P1 bust P2 wins';
-    break;
-case ($p2score > 21 && $p1score <= 21):
-    echo 'P2 bust P1 wins';
-    break;
-case ($p2score > $p1score):
-    echo 'P2 wins';
-    break;
-case ($p2score < $p1score):
-    echo 'P1 wins';
-    break;
-default:
-    echo 'Draw';
-    break;
+function winner($p1score, $p2score) {
+    switch (true) {
+    case ($p1score > 21 && $p2score <= 21):
+        return 'P1 Score: ' . $p1score . ', P2 Score: ' . $p2score . '<h3>P1 bust P2 wins</h3>';
+        break;
+    case ($p2score > 21 && $p1score <= 21):
+        return 'P1 Score: ' . $p1score . ', P2 Score: ' . $p2score . '<h3>P2 bust P1 wins</h3>';
+        break;
+    case ($p2score > $p1score):
+        return 'P1 Score: ' . $p1score . ', P2 Score: ' . $p2score . '<h3>P2 wins</h3>';
+        break;
+    case ($p2score < $p1score):
+        return 'P1 Score: ' . $p1score . ', P2 Score: ' . $p2score . '<h3>P1 wins</h3>';
+        break;
+    default:
+        return 'P1 Score: ' . $p1score . ', P2 Score: ' . $p2score . '<h3>Draw !</h3>';
+        break;
+    }
 }
+
+var_dump(winner($p1score, $p2score));
 
 
 /**
